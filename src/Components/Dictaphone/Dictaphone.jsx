@@ -10,6 +10,56 @@ const propTypes = {
 };
 
 class Dictaphone extends Component {
+  state = {
+    stateTranscript:
+      "Donald Trump is in the Bahamas fighting with the Jerome Powell and the federal reserve",
+    //this.props.transcript,
+    // "hello there how are you today i am fine thank you very much"
+    stateNlp: {}
+  };
+
+  sliceTranscript = () => {
+    const { transcript } = this.props;
+    const newTranscript = transcript.split(" ");
+    const len = newTranscript.length;
+    // console.log(len);
+    const min = len - 10 < 0 ? 0 : len - 10;
+    const shortTranscript = newTranscript.slice(min, len).join(" ");
+    this.setState({ stateTranscript: shortTranscript });
+  };
+
+  nlpTranscript = () => {
+    const nlp = require("compromise");
+    const { stateTranscript } = this.state;
+    const nlpTranscript = nlp(stateTranscript);
+    const people = nlpTranscript
+      .people()
+      .random(1)
+      .out();
+    const places = nlpTranscript
+      .places()
+      .random(1)
+      .out();
+    const organizations = nlpTranscript
+      .organizations()
+      .random(1)
+      .out();
+    const nouns = nlpTranscript
+      .nouns()
+      .random(1)
+      .out();
+    const update = { people, places, organizations, nouns };
+    this.props.sendData(nouns);
+    this.setState({ stateNlp: update });
+  };
+
+  componentDidMount() {
+    setInterval(() => {
+      this.sliceTranscript();
+      this.nlpTranscript();
+    }, 2000);
+  }
+
   render() {
     const {
       transcript,
@@ -17,27 +67,21 @@ class Dictaphone extends Component {
       browserSupportsSpeechRecognition
     } = this.props;
 
-    var nlp = require("compromise");
-    var doc = nlp(
-      "Singapore is a hot place full of Donald Trump and Mormon and cats and dogs. The protagonist Raskolnikov commits a terrible crime and descends into spiritual turmoil."
-    )
-      .people()
-      .data();
-    //var arr = doc.out();
-    //console.log(doc);
+    const { stateTranscript, stateNlp } = this.state;
 
     if (!browserSupportsSpeechRecognition) {
       return null;
     }
 
-    const splitTranscript = transcript.split(" ").slice(0, 10);
-    //console.log(splitTranscript);
+    //console.log({ transcript });
 
     return (
       <div>
         <button onClick={resetTranscript}>Reset</button>
+        <button onClick={this.props.handleClick}>ShortenState</button>
 
-        <span data-testid="transcripty">{transcript}</span>
+        <div data-testid="transcripty">{stateTranscript}</div>
+        <div onClick={this.props.handleChange}>{stateNlp.nouns}</div>
       </div>
     );
   }
