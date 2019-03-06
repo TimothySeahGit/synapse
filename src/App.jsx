@@ -4,16 +4,13 @@ import "./App.css";
 import Dictaphone from "./Components/Dictaphone/Dictaphone";
 
 class App extends Component {
-  handleClick = words => {
-    this.setState({ decisionPage: true });
-    console.log("HELLO!!!!!");
-    words.preventDefault();
+  state = {
+    searchTerms: {}
   };
 
-  getData(val) {
-    // do not forget to bind getData in constructor
-    console.log(val);
-  }
+  getSearchTerms = words => {
+    this.setState({ searchTerms: words });
+  };
 
   render() {
     return (
@@ -25,9 +22,8 @@ class App extends Component {
           <div>
             Learn React
             <Dictaphone
-              handleClick={this.handleClick}
-              handleChange={this.handleChange}
-              sendData={this.getData}
+              sendSearchTerms={this.getSearchTerms}
+              currentSearchTerms={this.state.searchTerms}
             />
           </div>
         </header>

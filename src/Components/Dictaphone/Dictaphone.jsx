@@ -18,12 +18,12 @@ class Dictaphone extends Component {
     stateNlp: {}
   };
 
-  sliceTranscript = () => {
+  sliceTranscript = n => {
     const { transcript } = this.props;
     const newTranscript = transcript.split(" ");
     const len = newTranscript.length;
     // console.log(len);
-    const min = len - 10 < 0 ? 0 : len - 10;
+    const min = len - n < 0 ? 0 : len - n;
     const shortTranscript = newTranscript.slice(min, len).join(" ");
     this.setState({ stateTranscript: shortTranscript });
   };
@@ -32,32 +32,28 @@ class Dictaphone extends Component {
     const nlp = require("compromise");
     const { stateTranscript } = this.state;
     const nlpTranscript = nlp(stateTranscript);
-    const people = nlpTranscript
-      .people()
-      .random(1)
-      .out();
-    const places = nlpTranscript
-      .places()
-      .random(1)
-      .out();
-    const organizations = nlpTranscript
-      .organizations()
-      .random(1)
-      .out();
     const nouns = nlpTranscript
       .nouns()
       .random(1)
       .out();
-    const update = { people, places, organizations, nouns };
-    this.props.sendData(nouns);
+    const topics = nlpTranscript
+      .topics()
+      .random(1)
+      .out();
+    const update = { nouns, topics };
+    this.props.sendSearchTerms(update);
     this.setState({ stateNlp: update });
   };
 
   componentDidMount() {
     setInterval(() => {
-      this.sliceTranscript();
+      this.sliceTranscript(10);
+      // this.nlpTranscript();
+    }, 500);
+    setInterval(() => {
+      //this.sliceTranscript(10);
       this.nlpTranscript();
-    }, 2000);
+    }, 5000);
   }
 
   render() {
@@ -78,7 +74,7 @@ class Dictaphone extends Component {
     return (
       <div>
         <button onClick={resetTranscript}>Reset</button>
-        <button onClick={this.props.handleClick}>ShortenState</button>
+        <button>ShortenState</button>
 
         <div data-testid="transcripty">{stateTranscript}</div>
         <div onClick={this.props.handleChange}>{stateNlp.nouns}</div>
