@@ -25,7 +25,7 @@ class Dictaphone extends Component {
     // console.log(len);
     const min = len - n < 0 ? 0 : len - n;
     const shortTranscript = newTranscript.slice(min, len).join(" ");
-    this.setState({ stateTranscript: shortTranscript });
+    return shortTranscript;
   };
 
   nlpTranscript = () => {
@@ -47,11 +47,12 @@ class Dictaphone extends Component {
 
   componentDidMount() {
     setInterval(() => {
-      this.sliceTranscript(10);
-      // this.nlpTranscript();
+      const shortTranscript = this.sliceTranscript(10);
+      this.setState({ stateTranscript: shortTranscript });
+      const command = this.sliceTranscript(1);
+      this.props.sendCommand(command);
     }, 500);
     setInterval(() => {
-      //this.sliceTranscript(10);
       this.nlpTranscript();
     }, 5000);
   }
@@ -73,11 +74,11 @@ class Dictaphone extends Component {
 
     return (
       <div>
-        <button onClick={resetTranscript}>Reset</button>
-        <button>ShortenState</button>
+        {/* <button onClick={resetTranscript}>Reset</button>
+        <button>ShortenState</button> */}
 
-        <div data-testid="transcripty">{stateTranscript}</div>
-        <div onClick={this.props.handleChange}>{stateNlp.nouns}</div>
+        {/* <div data-testid="transcripty">{stateTranscript}</div> */}
+        {/* <div onClick={this.props.handleChange}>{stateNlp.nouns}</div> */}
       </div>
     );
   }
