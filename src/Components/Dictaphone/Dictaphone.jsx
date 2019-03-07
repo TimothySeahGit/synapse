@@ -46,15 +46,15 @@ class Dictaphone extends Component {
   };
 
   componentDidMount() {
-    // setInterval(() => {
-    //   const shortTranscript = this.sliceTranscript(10);
-    //   this.setState({ stateTranscript: shortTranscript });
-    //   const command = this.sliceTranscript(1);
-    //   this.props.sendCommand("chill");
-    // }, 1000);
-    // setInterval(() => {
-    //   this.nlpTranscript();
-    // }, 5000);
+    setInterval(() => {
+      const shortTranscript = this.sliceTranscript(10);
+      this.setState({ stateTranscript: shortTranscript });
+      const command = this.sliceTranscript(1);
+      this.props.sendCommand(command);
+    }, 1000);
+    setInterval(() => {
+      this.nlpTranscript();
+    }, 5000);
   }
 
   render() {

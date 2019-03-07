@@ -9,31 +9,29 @@ class App extends Component {
   state = {
     searchTerms: {},
     command: "",
-    resultList: [],
-
-    style: {
-      height: "100vh",
-      width: "100%"
-    }
+    resultList: []
   };
 
   async componentDidMount() {
-    try {
-      const searchTerm = "dog";
-      const response = await searchPhotos(searchTerm);
-      console.log(response.results);
-      const results = response.results;
-      const oneResult = response.results[2].urls.regular;
-      this.setState({ resultList: results });
+    setInterval(async () => {
+      try {
+        const searchTerm = this.state.command;
+        const response = await searchPhotos(searchTerm);
+        console.log(response.results);
+        const results = response.results;
+        this.setState({ resultList: results });
 
-      const styleCopy = { ...this.state.style };
-      console.log(styleCopy);
-      console.log(oneResult);
+        const rng = Math.floor(Math.random() * 10);
+        console.log(rng);
+        const oneResult = response.results[rng].urls.regular;
 
-      this.setState({ newBackground: oneResult });
-    } catch (err) {
-      console.log(err);
-    }
+        console.log(oneResult);
+
+        this.setState({ newBackground: oneResult });
+      } catch (err) {
+        console.log(err);
+      }
+    }, 5000);
   }
 
   getSearchTerms = words => {
@@ -70,7 +68,6 @@ class App extends Component {
                 sendSearchTerms={this.getSearchTerms}
                 sendCommand={this.getCommand}
               />
-              {/* <Background imageUrl={this.state.newBackground} /> */}
             </div>
           </header>
         </div>
