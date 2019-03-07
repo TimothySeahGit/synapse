@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
     "compromise": "^11.13.1",
     "jest-dom": "^3.1.2",
     "prop-types": "^15.7.2",
