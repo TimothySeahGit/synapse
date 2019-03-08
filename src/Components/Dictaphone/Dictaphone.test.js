@@ -19,13 +19,4 @@ describe("Dictaphone", () => {
       "Singapore is a hot place full of Donald Trump and Mormon and cats and dogs. The protagonist Raskolnikov commits a terrible crime and descends into spiritual turmoil."
     );
   });
-
-  xtest("keeps the last 10 words from transcript in the local state", () => {
-    const { getByText, queryByText, debug, getByTestId } = render(
-      <Dictaphone {...props} />
-    );
-    debug();
-  });
-
-  xtest("post-NLP state is a subset of transcript in the local state", () => {});
 });
