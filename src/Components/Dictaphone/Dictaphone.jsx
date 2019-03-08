@@ -11,10 +11,7 @@ const propTypes = {
 
 class Dictaphone extends Component {
   state = {
-    stateTranscript:
-      "Donald Trump is in the Bahamas fighting with the Jerome Powell and the federal reserve",
-    //this.props.transcript,
-    // "hello there how are you today i am fine thank you very much"
+    stateTranscript: "initialise",
     stateNlp: {}
   };
 
@@ -22,7 +19,7 @@ class Dictaphone extends Component {
     const { transcript } = this.props;
     const newTranscript = transcript.split(" ");
     const len = newTranscript.length;
-    // console.log(len);
+
     const min = len - n < 0 ? 0 : len - n;
     const shortTranscript = newTranscript.slice(min, len).join(" ");
     return shortTranscript;

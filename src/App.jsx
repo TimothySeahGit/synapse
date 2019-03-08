@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import "./App.css";
 import Dictaphone from "./Components/Dictaphone/Dictaphone";
-// import Background from "./img/bg/lensgrid.png";
-import Background from "./Components/Background/Background";
 import { searchPhotos } from "./services/unsplash";
 
 class App extends Component {
   state = {
-    searchTerms: {},
+    searchTerms: { nouns: "", topics: "" },
     command: "",
     resultList: []
   };
@@ -15,23 +13,20 @@ class App extends Component {
   async componentDidMount() {
     setInterval(async () => {
       try {
-        const searchTerm = this.state.command;
+        const searchTerm =
+          this.state.searchTerms.nouns || this.state.searchTerms.topics;
+
         const response = await searchPhotos(searchTerm);
-        console.log(response.results);
         const results = response.results;
         this.setState({ resultList: results });
 
-        const rng = Math.floor(Math.random() * 10);
-        console.log(rng);
+        const rng = Math.floor(Math.random() * results.length);
         const oneResult = response.results[rng].urls.regular;
-
-        console.log(oneResult);
-
         this.setState({ newBackground: oneResult });
       } catch (err) {
         console.log(err);
       }
-    }, 5000);
+    }, 10000);
   }
 
   getSearchTerms = words => {
@@ -54,9 +49,9 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div className="AppTest" style={divStyle}>
+        <div className="Unsplash" style={divStyle}>
           <header className="App-header">
-            <p>What are your commands?</p>
+            <p>Speak</p>
             <img
               src={require("./img/samaritan-signal.png")}
               className="App-logo"

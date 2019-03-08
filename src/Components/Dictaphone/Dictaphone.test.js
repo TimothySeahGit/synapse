@@ -12,7 +12,7 @@ describe("Dictaphone", () => {
     browserSupportsSpeechRecognition: true
   };
 
-  test("renders a transcript that is fed to it", () => {
+  xtest("renders a transcript that is fed to it", () => {
     const { getByText, getByTestId, debug } = render(<Dictaphone {...props} />);
     debug();
     expect(getByText(props.transcript)).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe("Dictaphone", () => {
     ).toBeInTheDocument();
   });
 
-  xtest("shows only the last 10 words in the transcript", () => {
+  xtest("keeps the last 10 words from transcript in the local state", () => {
     const { getByText, queryByText, debug, getByTestId } = render(
       <Dictaphone {...props} />
     );
@@ -34,4 +34,6 @@ describe("Dictaphone", () => {
     debug();
     //expect(queryByText(/the protagonist/i)).not.toBeInTheDocument();
   });
+
+  xtest("post-NLP state is a subset of transcript in the local state", () => {});
 });
