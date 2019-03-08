@@ -10,8 +10,10 @@ class App extends Component {
     resultList: []
   };
 
+  timerID = 0;
+
   async componentDidMount() {
-    setInterval(async () => {
+    this.timerID = setInterval(async () => {
       try {
         const searchTerm =
           this.state.searchTerms.nouns || this.state.searchTerms.topics;
@@ -27,6 +29,10 @@ class App extends Component {
         console.log(err);
       }
     }, 10000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
   }
 
   getSearchTerms = words => {

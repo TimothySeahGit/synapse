@@ -9,7 +9,7 @@
 .Unsplash {
   text-align: center;
   background-repeat: no-repeat;
-  background-size: auto;
+  background-size: cover;
   background-position: center;
   opacity: 1;
 }
@@ -30,7 +30,7 @@
   justify-content: center;
   font-size: calc(8px + 2vmin);
   color: black;
-  text-decoration: underline;
+  /* text-decoration: underline; */
   /* background-image: url("img/bg/lensgrid.png");
   background-size: 100% 100%; */
 }

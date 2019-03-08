@@ -6,8 +6,8 @@ const unsplash = axios.create({
 });
 
 export const searchPhotos = async searchTerm => {
-  // const response = await unsplash.get(`/search/photos?query=${searchTerm}`);
-  // return response.data;
+  const response = await unsplash.get(`/search/photos?query=${searchTerm}`);
+  return response.data;
 };
 
 export default searchPhotos;

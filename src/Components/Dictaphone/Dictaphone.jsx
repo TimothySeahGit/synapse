@@ -14,6 +14,7 @@ class Dictaphone extends Component {
     stateTranscript: "initialise",
     stateNlp: {}
   };
+  timerId = 0;
 
   sliceTranscript = n => {
     const { transcript } = this.props;
@@ -43,7 +44,7 @@ class Dictaphone extends Component {
   };
 
   componentDidMount() {
-    setInterval(() => {
+    this.timerId = setInterval(() => {
       const shortTranscript = this.sliceTranscript(10);
       this.setState({ stateTranscript: shortTranscript });
       const command = this.sliceTranscript(1);
@@ -52,6 +53,10 @@ class Dictaphone extends Component {
     setInterval(() => {
       this.nlpTranscript();
     }, 5000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerId);
   }
 
   render() {
