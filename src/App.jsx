@@ -7,7 +7,8 @@ class App extends Component {
   state = {
     searchTerms: { nouns: "", topics: "" },
     command: "",
-    resultList: []
+    resultList: [],
+    searchTermOld: ""
   };
 
   timerID = 0;
@@ -18,12 +19,15 @@ class App extends Component {
         const searchTerm =
           this.state.searchTerms.nouns || this.state.searchTerms.topics;
 
-        const response = await searchPhotos(searchTerm);
-        const results = response.results;
-        this.setState({ resultList: results });
+        if (searchTerm !== this.state.searchTermOld) {
+          const response = await searchPhotos(searchTerm);
+          const results = response.results;
+          this.setState({ resultList: results });
+          this.setState({ searchTermOld: searchTerm });
+        }
 
-        const rng = Math.floor(Math.random() * results.length);
-        const oneResult = response.results[rng].urls.regular;
+        const rng = Math.floor(Math.random() * this.state.resultList.length);
+        const oneResult = this.state.resultList[rng].urls.regular;
         this.setState({ newBackground: oneResult });
       } catch (err) {
         console.log(err);
